@@ -22,7 +22,11 @@ exports.createApiEndPoints = (app) => {
                 headers: {Authorization: `Bearer ${botAccessToken}`}
               });
               axiosInstance.get(messageApiUrl + "/" + messageId)
-            .then(response => console.log(response)) 
+            .then(response => {
+                console.log(response)
+                if (response.data.text)  
+                    console.log(response.data.text)
+            }) 
 
         }
     })

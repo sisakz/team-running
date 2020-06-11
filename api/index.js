@@ -1,4 +1,4 @@
-const axios = required('axios')
+const axios = require('axios')
 
 exports.createApiEndPoints = (app) => {
     app.get('/api/help', (req, res, next) => {
@@ -9,7 +9,8 @@ exports.createApiEndPoints = (app) => {
         if (req.body.data) {
             const msg = req.body.data
             console.log(msg)
-            const messageId = message.id
+            const messageId = msg.id
+            res.send(messageId)
             const messageApiUrl = "https://api.ciscospark.com/v1/messages"
             const botAccessToken = "NmMwYWZiZDgtOWUyYi00MzI0LWJmYmItYjU2ODA4MzY2NDJjYzg2YWRmMDAtZjJj_PF84_4a05e5c1-65cb-4f86-899f-dbcc12a1af24"
             const config = {

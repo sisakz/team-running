@@ -9,14 +9,13 @@ exports.initExpressServer = () => {
 
     const teamRunningApp = express()
 
-    teamRunningApp.set('port', process.env.PORT || port)
     teamRunningApp.use(bodyParser.json())
     teamRunningApp.use(morgan('tiny'))
     teamRunningApp.use(cors())
 
     createApiEndPoints(teamRunningApp)
 
-    teamRunningApp.listen(port, () => {
+    teamRunningApp.listen(process.env.PORT || port, () => {
         console.log(`Server for Team Running Webex Bot listen on port ${port}`)
     })
     return teamRunningApp

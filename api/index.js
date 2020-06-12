@@ -12,8 +12,8 @@ exports.createApiEndPoints = (app) => {
             const messageId = msg.id
             res.send(messageId)
             const apiUrl =  "https://webexapis.com/v1"
-            const messageApiUrl = `${ApiUrl}/messages`
-            const peopleUrl = `${ApiUrl}/people`
+            const messageApiUrl = `${apiUrl}/messages`
+            const peopleUrl = `${apiUrl}/people`
             const botAccessToken = "NmMwYWZiZDgtOWUyYi00MzI0LWJmYmItYjU2ODA4MzY2NDJjYzg2YWRmMDAtZjJj_PF84_4a05e5c1-65cb-4f86-899f-dbcc12a1af24"
             const axiosInstance = axios.create({
                 baseURL: messageApiUrl,

@@ -1,37 +1,96 @@
 const axios = require('axios')
+const config = require('../config')
 
-exports.createApiEndPoints = (app) => {
+exports.createApiEndPoints =  (app) => {
+    // only for testing purpose yet
     app.get('/api/help', (req, res, next) => {
         console.log('help')
         res.send('Help')
     })
-    app.post('/api/message', (req, res, next) => {
+
+    // listen for messages to bot
+    app.post('/api/message', async (req, res, next) => {
         if (req.body.data) {
-            const msg = req.body.data
-            console.log(msg)
-            const messageId = msg.id
+            // read message directed to bot from response
+            const requestToBot = req.body.data
+            const messageId = requestToBot.id
+            
+            console.log(messageId)
             res.send(messageId)
-            const apiUrl =  "https://webexapis.com/v1"
-            const messageApiUrl = `${apiUrl}/messages`
-            const peopleUrl = `${apiUrl}/people`
-            const botAccessToken = "NmMwYWZiZDgtOWUyYi00MzI0LWJmYmItYjU2ODA4MzY2NDJjYzg2YWRmMDAtZjJj_PF84_4a05e5c1-65cb-4f86-899f-dbcc12a1af24"
-            const axiosInstance = axios.create({
-                baseURL: messageApiUrl,
-                timeout: 1000,
-                headers: {Authorization: `Bearer ${botAccessToken}`}
-              })
-            axiosInstance.get(messageApiUrl + "/" + messageId)
-            .then(response => {
-                console.log(response)
-                if (response.data)  {
-                    const messageText = response.data.text
-                    const personId = response.data.personId
-                    console.log(messageText)
-                    console.log(personId)
-                }
-            }) 
+            
+            // axios config
+            axios.defaults.baseURL = config.apiURL
+            axios.defaults.headers = {Authorization: `Bearer ${config.botAccessToken}`}
+            axios.defaults.headers.post = {"Content-Type": `application/json`}
+            
+
+            //get message details directed to bot
+           const message = await getMessage(messageId)
+                .catch(err => console.log(err))
+           console.log("message", message)
+           if (message) sendMessage(message.roomId, `Message from Team Running Bot: ${message.text}`)
 
         }
     })
 }
+
+const getMessage = messageId => new Promise(async (resolve, reject) => {
+    try {
+        const response = await axios.get(`messages/${messageId}`)    
+        if (response.data) {
+            let message = {}
+            message.text = response.data.text
+            message.roomId = response.data.roomId
+            message.person = await getPerson(response.data.personId)
+            resolve(message)
+        }
+        else reject()
+    }
+    catch (err) {
+        if (err.response) {
+            console.error({status: err.response.status, statusText: err.response.statusText})
+         }
+         else console.log("Unexpected error occured when getting sender details!")
+         reject()
+    }
+
+})
+
+const getPerson =  personId => new Promise(async (resolve, reject) => {
+    try {
+        const response = await axios.get(`people/${personId}`)    
+        const person = {
+            id: response.data.id,
+            email: response.data.emails[0],
+            name: `${response.data.firstName} ${response.data.lastName}`
+        }
+        resolve(person)
+    }
+    catch (err) {
+        if (err.response) {
+           console.error({status: err.response.status, statusText: err.response.statusText})
+        }
+        else console.log("Unexpected error occured when getting sender details!")
+        reject()
+    }
+
+})
+
+const sendMessage =  (roomId, text) => new Promise(async (resolve, reject) => {
+    try {
+        console.log("roomId", roomId)
+        const response = await axios.post(`messages`, {roomId, text})    
+        resolve(response)
+    }
+    catch (err) {
+        if (err.response) {
+           console.log(err)
+           console.error({status: err.response.status, statusText: err.response.statusText})
+        }
+        else console.log("Unexpected error occured when sending bot message!", err)
+        reject()
+    }
+
+})
+
 

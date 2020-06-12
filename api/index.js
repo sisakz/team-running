@@ -19,15 +19,16 @@ exports.createApiEndPoints = (app) => {
                 baseURL: messageApiUrl,
                 timeout: 1000,
                 headers: {Authorization: `Bearer ${botAccessToken}`}
-              });
+              })
             axiosInstance.get(messageApiUrl + "/" + messageId)
             .then(response => {
                 console.log(response)
-                if (response.data)  
+                if (response.data)  {
                     const messageText = response.data.text
                     const personId = response.data.personId
                     console.log(messageText)
                     console.log(personId)
+                }
             }) 
 
         }

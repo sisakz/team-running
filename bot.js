@@ -13,7 +13,7 @@ const  isDigit = str =>/^\d+$/.test(str)
 
 const getWorkoutDetails = message => {
     let workout = {}
-    if (message.icludes("/")) {
+    if (message.includes("/")) {
         messageParts = message.split("/")
         workout.distance = messageParts[0]
         workout.time = messageParts[1]

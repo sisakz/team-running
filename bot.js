@@ -1,9 +1,12 @@
+const { saveWorkout } = require("./db")
+
 exports.getBotAnswer = (message) => {
     if (message) {
         firstChar = message.substring(0,1)
         if (isDigit(firstChar)) {
             const workout = getWorkoutDetails(message)
-            return `Congratulation for your workout! Distance: ${workout.distance}`
+            saveWorkout(workout)
+            return `Congratulation for your workout! Distance: ${workout.distance} km`
         }
         else return "Please send your workout deatils in the following form: distance/time (e.g.: 5.3/29:12)!"
     }

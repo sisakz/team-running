@@ -15,7 +15,7 @@ exports.createApiEndPoints =  (app) => {
             const requestToBot = req.body.data
             const messageId = requestToBot.id
             
-            res.send(messageId)
+            
             
             // axios config
             axios.defaults.baseURL = config.apiURL
@@ -35,8 +35,9 @@ exports.createApiEndPoints =  (app) => {
                 }
                 else console.log("not sending")
             }
-
+            res.send(messageId)
         }
+        else res.send("Error")
     })
 }
 
@@ -68,35 +69,6 @@ const getMessage = messageId => new Promise(async (resolve, reject) => {
     }
 
 })
-
-const axiosRequest = (req) => new Promise(async (resolve, reject) => {
-    try {
-        const response = await req()
-        resolve(response)
-    }
-    catch (err) {
-        if (err.response) {
-           console.error({status: err.response.status, statusText: err.response.statusText})
-        }
-        else console.error("Unexpected error occured when getting sender details!")
-        reject()
-    }
-
-}) 
-
-const getPerson2 =  async personId => {
-    const req = () => axios.get(`people/${personId}`)
-    const response = await axiosRequest(req)
-    if (response) {
-        const person = {
-            id: response.data.id,
-            email: response.data.emails[0],
-            name: `${response.data.firstName} ${response.data.lastName}`
-        }        
-        return person
-    }
-}
-
 
 
 const getPerson =  personId => new Promise(async (resolve, reject) => {

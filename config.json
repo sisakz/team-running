@@ -1,4 +1,5 @@
 {
     "apiURL": "https://webexapis.com/v1",
-    "botAccessToken" : "NmMwYWZiZDgtOWUyYi00MzI0LWJmYmItYjU2ODA4MzY2NDJjYzg2YWRmMDAtZjJj_PF84_4a05e5c1-65cb-4f86-899f-dbcc12a1af24"
+    "botAccessToken" : "NmMwYWZiZDgtOWUyYi00MzI0LWJmYmItYjU2ODA4MzY2NDJjYzg2YWRmMDAtZjJj_PF84_4a05e5c1-65cb-4f86-899f-dbcc12a1af24",
+    "botPersonId" : "Y2lzY29zcGFyazovL3VzL1BFT1BMRS9mM2IwN2JkMy02OGJiLTRiYTktODcwYy05MzEzN2JmMjMyZWE"
 }

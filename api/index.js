@@ -29,7 +29,7 @@ exports.createApiEndPoints =  (app) => {
            console.log("message", message)
            if (message) {
                console.log("person id", message.person.id)
-                if (!(message.person.id=="Y2lzY29zcGFyazovL3VzL0FQUExJQ0FUSU9OL2YzYjA3YmQzLTY4YmItNGJhOS04NzBjLTkzMTM3YmYyMzJlYQ")) {
+                if (!(message.person.id==config.botPersonId)) {
                     console.log("sending")
                     sendMessage(message.roomId, `Message from Team Running Bot: ${message.text}`)
                 }

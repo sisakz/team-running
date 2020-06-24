@@ -1,5 +1,6 @@
 const axios = require('axios')
 const config = require('../config')
+const { getBotAnswer } = require('../bot')
 
 exports.createApiEndPoints =  (app) => {
     // only for testing purpose yet
@@ -31,7 +32,8 @@ exports.createApiEndPoints =  (app) => {
                console.log("person id", message.person.id)
                 if (!(message.person.id==config.botPersonId)) {
                     console.log("sending")
-                    sendMessage(message.roomId, `Message from Team Running Bot: ${message.text}`)
+
+                    sendMessage(message.roomId, getBotAnswer(message.text))
                 }
                 else console.log("not sending")
             }
@@ -42,11 +44,12 @@ exports.createApiEndPoints =  (app) => {
 }
 
 const getMessage = messageId => new Promise(async (resolve, reject) => {
-    console.log("getMEssage")
+    console.log("getMessage")
     try {
         const response = await axios.get(`messages/${messageId}`)    
         if (response.data) {
             let message = {}
+            message.id = messageId
             message.text = response.data.text
             message.roomId = response.data.roomId
             console.log("personId: ", response.data.personId)

@@ -15,7 +15,7 @@ exports.initExpressServer = () => {
 
     createApiEndPoints(teamRunningApp)
 
-    teamRunningApp.listen(process.env.PORT || port, () => {
+    teamRunningApp.listen(port, () => {
         console.log(`Server for Team Running Webex Bot listen on port ${port}`)
     })
     return teamRunningApp

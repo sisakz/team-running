@@ -32,14 +32,12 @@ exports.getStatistic = () => {
     if (err) {
       throw err
     }
-    row.forEach((row) => {
-      console.log(row.sumOfDistances);
-    })
+    console.log(row.sumOfDistances);
     let sumOfDistances = row.sumOfDistances
-
+    db.close()
+    return sumOfDistances
   })
 
   // close the database connection
-  db.close()
-  return sumOfDistances
+  
 }

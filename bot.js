@@ -1,4 +1,4 @@
-const { saveWorkout } = require("./db")
+const { saveWorkout, getStatistic } = require("./db")
 
 exports.getBotAnswer = (message) => {
     if (message) {
@@ -6,7 +6,8 @@ exports.getBotAnswer = (message) => {
         if (isDigit(firstChar)) {
             const workout = getWorkoutDetails(message)
             saveWorkout(workout)
-            return `Congratulation for your workout! Distance: ${workout.distance} km`
+            const sumOfDistances = getStatistic()
+            return `Congratulation for your workout! Distance: ${workout.distance} km. Sum: ${sumOfDistance} km`
         }
         else return "Please send your workout deatils in the following form: distance/time (e.g.: 5.3/29:12)!"
     }

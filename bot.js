@@ -28,6 +28,10 @@ exports.getBotAnswer = async (message) => {
             case "help":
                 answer = `Hi Guys! I am Cisco XO Team Running Bot. I am happy to assist your team to count your team result. Please mention me in your message with your workout distance! (e.g.: @team-running-bot 5.3 or @team-running-bot 5,3)!`
                 break
+            case "status":
+                const sumOfDistance = await getStatistic()
+                answer = `Team result: ${sumOfDistance} km`
+                break
             default: 
                 answer="Please send your workout distance! (e.g.: 5.3 or 5,3)!"
         }

@@ -46,7 +46,8 @@ exports.getStatistic = () => new Promise((resolve, reject) => {
       }
       console.log(`Reset workouts`);
       resolve()
-      db.close() 
+      db.close()
+      // ?
     })
   })
 

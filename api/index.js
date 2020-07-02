@@ -27,13 +27,12 @@ exports.createApiEndPoints =  (app) => {
             //get message details directed to bot
            const message = await getMessage(messageId)
                 .catch(err => console.log(err))
-           console.log("message", message)
+           //console.log("message", message)
            if (message) {
-               console.log("person id", message.person.id)
+               //console.log("person id", message.person.id)
                 if (!(message.person.id==config.botPersonId)) {
-                    console.log("sending")
-
-                    sendMessage(message.roomId, getBotAnswer(message.text))
+                    const botAnswer = await getBotAnswer(message.text)
+                    sendMessage(message.roomId, botAnswer)
                 }
                 else console.log("not sending")
             }
@@ -44,7 +43,6 @@ exports.createApiEndPoints =  (app) => {
 }
 
 const getMessage = messageId => new Promise(async (resolve, reject) => {
-    console.log("getMessage")
     try {
         const response = await axios.get(`messages/${messageId}`)    
         if (response.data) {
@@ -52,14 +50,14 @@ const getMessage = messageId => new Promise(async (resolve, reject) => {
             message.id = messageId
             message.text = response.data.text
             message.roomId = response.data.roomId
-            console.log("personId: ", response.data.personId)
+            //console.log("personId: ", response.data.personId)
             message.person = await getPerson(response.data.personId)
 
             .catch(err => console.log(err))
             resolve(message)
         }
         else {
-            console.log("try error")
+            //console.log("try error")
             reject()
         }
     }
@@ -95,14 +93,14 @@ const getPerson =  personId => new Promise(async (resolve, reject) => {
 })
 
 const sendMessage =  (roomId, text) => new Promise(async (resolve, reject) => {
+    console.log("roomId", roomId, "text", text)
     try {
-        console.log("roomId", roomId)
         const response = await axios.post(`messages`, {roomId, text})    
         resolve(response)
     }
     catch (err) {
         if (err.response) {
-           console.log(err)
+           //console.log(err)
            console.error({status: err.response.status, statusText: err.response.statusText})
         }
         else console.log("Unexpected error occured when sending bot message!", err)

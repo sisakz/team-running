@@ -2,7 +2,7 @@ const express = require('express')
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const cors = require('cors')
-const port = 8000
+const port = 5000
 const {createApiEndPoints} = require('./api')
 
 exports.initExpressServer = () => {

@@ -10,34 +10,43 @@ exports.initDatabase = () => {
   )
 }
 
-exports.saveWorkout = (workout) => {
+exports.saveWorkout = (workout) => new Promise((resolve, reject) => {
   const db = new sqlite3.Database('team-running.sqlite')
   let sql = `INSERT INTO workouts (distance)`;
   db.run(`INSERT INTO workouts (distance) VALUES(?)`, [workout.distance], function (err) {
     if (err) {
-      return console.log(err.message);
+      reject(err.message)
     }
-    // get the last insert id
-    console.log(`A row has been inserted with rowid ${this.lastID}`);
+    resolve()
+    db.close()
   })
-  db.close()
-}
+})
 
-exports.getStatistic = () => {
+exports.getStatistic = () => new Promise((resolve, reject) => {
   const db = new sqlite3.Database('team-running.sqlite')
-  let sql = `SELECT SUM(distance) as sumOfDistances FROM workouts
-           `;
-
-  db.get(sql, [], (err, row) => {
+  let sql = `SELECT SUM(distance) as sumOfDistances FROM workouts`
+    db.get(sql, [], (err, row) => {
     if (err) {
-      throw err
+      reject(err.message)
     }
-    console.log(row.sumOfDistances);
     let sumOfDistances = row.sumOfDistances
     db.close()
-    return sumOfDistances
+    resolve(sumOfDistances)
   })
+})
 
   // close the database connection
   
-}
+  exports.resetWorkouts = (workout) => new Promise((resolve, reject) => {
+    const db = new sqlite3.Database('team-running.sqlite')
+    let sql = `DELETE FROM workouts`;
+    db.run(sql, [], function (err) {
+      if (err) {
+        reject(err.message)
+      }
+      console.log(`Reset workouts`);
+      resolve()
+      db.close()
+    })
+  })
+

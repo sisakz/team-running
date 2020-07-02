@@ -1,7 +1,7 @@
 const sqlite3 = require('sqlite3')
 
 exports.initDatabase = () => {
-  const db = new sqlite3.Database('team-running.sqlite')
+  const db = new sqlite3.Database('team-running2.sqlite')
   db.exec(
     'CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, name TEXT, webexId, createdAt DATETIME, updatedAt DATETIME);'
   )
@@ -11,7 +11,7 @@ exports.initDatabase = () => {
 }
 
 exports.saveWorkout = (workout) => new Promise((resolve, reject) => {
-  const db = new sqlite3.Database('team-running.sqlite')
+  const db = new sqlite3.Database('team-running2.sqlite')
   let sql = `INSERT INTO workouts (distance)`;
   db.run(`INSERT INTO workouts (distance) VALUES(?)`, [workout.distance], function (err) {
     if (err) {
@@ -23,7 +23,7 @@ exports.saveWorkout = (workout) => new Promise((resolve, reject) => {
 })
 
 exports.getStatistic = () => new Promise((resolve, reject) => {
-  const db = new sqlite3.Database('team-running.sqlite')
+  const db = new sqlite3.Database('team-running2.sqlite')
   let sql = `SELECT SUM(distance) as sumOfDistances FROM workouts`
     db.get(sql, [], (err, row) => {
     if (err) {
@@ -38,7 +38,7 @@ exports.getStatistic = () => new Promise((resolve, reject) => {
   // close the database connection
   
   exports.resetWorkouts = (workout) => new Promise((resolve, reject) => {
-    const db = new sqlite3.Database('team-running.sqlite')
+    const db = new sqlite3.Database('team-running2.sqlite')
     let sql = `DELETE FROM workouts`;
     db.run(sql, [], function (err) {
       if (err) {

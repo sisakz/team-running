@@ -4,6 +4,7 @@ exports.getBotAnswer = async (message) => {
     let answer
     if (message) {
         message = message.replace("team-running-bot","")
+        message = message.replace("team-running","")
         message = message.trim()
         firstChar = message.substring(0,1)
         if (isDigit(firstChar)) {
